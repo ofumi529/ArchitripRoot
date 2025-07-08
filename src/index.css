@@ -1,6 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Libre+Baskerville&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Libre+Baskerville&display=swap');
+
+.font-display {
+  font-family: 'Cinzel', serif;
+}
+.font-body {
+  font-family: 'Libre Baskerville', serif;
+}
 
 html,
 body,

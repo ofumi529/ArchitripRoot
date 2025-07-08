@@ -43,7 +43,12 @@ export default function TravelPlanPanel({ onRouteReady, origin, originCoords }: 
       segs.push({ label: `${fromLabel} → ${toLabel}`, d: Math.round(d), mode: 'flight' });
     }
     setSegments(segs);
-    // totals will recalc via effect
+
+    // compute totals directly
+    const totalH = segs.reduce((acc, s) => acc + estimateDuration(s.d, s.mode), 0);
+    const totalC = segs.reduce((acc, s) => acc + estimateCost(s.d, s.mode), 0);
+    setDurationH(Math.round(totalH));
+    setCostUsd(Math.round(totalC));
 
     onRouteReady(coords);
   };
@@ -62,7 +67,7 @@ export default function TravelPlanPanel({ onRouteReady, origin, originCoords }: 
         </button>
       </div>
 
-      <div className="grid grid-cols-3 gap-2 mb-2">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mb-2">
         {distanceKm !== null && (
           <Card className="p-2 text-center bg-blue-50">
             <div className="text-[10px] font-medium uppercase tracking-wide">{t('Total Distance')}</div>
@@ -153,13 +158,5 @@ export default function TravelPlanPanel({ onRouteReady, origin, originCoords }: 
     </div>
   );
 
-  // recalc totals whenever segment modes or distances change
-  useEffect(() => {
-    if (segments.length > 0) {
-      const totalH = segments.reduce((acc, s) => acc + estimateDuration(s.d, s.mode), 0);
-      const totalC = segments.reduce((acc, s) => acc + estimateCost(s.d, s.mode), 0);
-      setDurationH(Math.round(totalH));
-      setCostUsd(Math.round(totalC));
-    }
-  }, [segments]);
+
 }
