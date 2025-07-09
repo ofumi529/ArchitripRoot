@@ -5,7 +5,7 @@ const repoName = 'ArchitripRoot';
 
 export default defineConfig({
   plugins: [react()],
-  base: process.env.NODE_ENV === 'production' ? `/${repoName}/` : '/',
+  base: `/${repoName}/`,
   server: {
     port: 5173,
   },
