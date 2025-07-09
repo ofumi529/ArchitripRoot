@@ -1,4 +1,9 @@
-# 建築旅行プランナー 2025 版
+# Architectour Planner
+
+A React + TypeScript single-page app for crafting custom tours of 20th-century architectural masterpieces.
+
+![screenshot](docs/screenshot.png)
+
 
 世界の名建築を巡る旅程を、ステップ・バイ・ステップのウィザードで直感的に作成できる React + TypeScript アプリケーションです。地図や写真ギャラリーから作品を選び、最適な巡回ルートを自動生成。総距離・総時間・総費用を即座に確認できます。
 
@@ -19,7 +24,9 @@
 6. **多言語対応**  
    i18next により日本語 / 英語トグル
 7. **ビジュアルテーマ**  
-   アンバー × ストーンのカラーパレット、Google Fonts *Cinzel*（見出し） & *Libre Baskerville*（本文）で巨匠の重厚感を演出
+   アンバー・スレート・エメラルド・ウッドを基調としたマテリアルパレット。見出しは *Cinzel*、本文は *Inter*.
+8. **データの動的ロード**  
+   `src/data/works.csv` を Vite の raw import + `d3-dsv` でパースし、画像は `import.meta.glob` で自動解決。
 
 ---
 
@@ -28,7 +35,7 @@
 
 ---
 
-## デモ
+## ローカルデモ
 ローカル起動後、ブラウザで `http://localhost:5173` を開いてください。
 
 ---
@@ -44,9 +51,8 @@ npm run dev
 
 ビルド：
 ```bash
-npm run build        # production 用静的ファイルを dist/ に出力
-npm run preview      # ローカルでビルド済みファイルを検証
-```
+npm run build        # 静的ファイルを dist/ へ出力
+npm run preview      # ローカルサーバーで dist/ を検証
 
 ---
 
@@ -67,7 +73,7 @@ src/
     transport.ts           … 時間・費用推定
     share.ts               … URL シリアライズ
   data/
-    works.ts               … 建築作品データ
+    works.csv              … 建築作品データ（CSV, 画像は id ベースで自動紐付け）
     countryCenters.ts      … 国別中心座標
     architects/            … ポートレート画像（背景用）
 ```
@@ -89,67 +95,3 @@ src/
 
 ## ライセンス
 MIT License
-
-
-建築作品を巡る旅程を簡単に作成できる React アプリです。
-
-Travel route planner focusing on architectural works.
-
-## Features
-
-* Select origin country and architectural works to visit
-* Generates optimized travel route (nearest-neighbor heuristic)
-* Per-segment transport mode selection (flight / train / bus / car)
-* Automatic estimation of distance, time and cost per segment and totals
-* Shareable URL to reopen the exact plan
-* Responsive UI (Sidebars on desktop, drawer navigation on mobile)
-* i18n Japanese / English
-
-## Tech Stack
-
-* React 18 + TypeScript + Vite
-* TailwindCSS
-* React Leaflet + OpenStreetMap tiles
-* i18next
-* HeadlessUI & Heroicons (drawers, icons)
-* clsx (utility)
-
-## Getting Started (Local Dev)
-
-```bash
-# 1. install dependencies
-npm install
-
-# 2. run dev server (http://localhost:5173 by default)
-npm run dev
-```
-
-## Build
-
-```bash
-npm run build
-```
-
-## Share URL
-
-The travel plan can be shared via the **Copy Share URL** button. The full plan state is Base64-encoded in a `?plan=` query parameter.
-
-## Folder Structure (major files)
-
-```
-src/
-  components/
-    CleanMapView.tsx       – Map + markers / polyline
-    TravelPlanPanel.tsx    – Route generation, transport mode, costs
-    SelectedList.tsx       – List of chosen works
-    ui/                    – Reusable Button / Drawer / Card
-  context/                 – Selection context
-  utils/                   – Route planner, share URL, transport utils
-  data/                    – Country centres, sample data
-```
-
-## Contributing
-Pull requests are welcome! Feel free to open issues / suggestions.
-
-## License
-MIT
