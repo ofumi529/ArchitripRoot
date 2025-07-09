@@ -59,7 +59,7 @@ export default function TravelPlanPanel({ onRouteReady, origin, originCoords }: 
       <div className="space-y-2">
         <div className="text-sm">{t('Origin')}: {origin ?? t('None')}</div>
         <button
-          className="mb-2 px-3 py-1 bg-blue-600 text-white text-sm rounded disabled:opacity-40"
+          className="mb-2 px-3 py-1 bg-amber-700 hover:bg-amber-800 text-white text-sm rounded disabled:opacity-40"
           disabled={selected.length < 2 || !originCoords}
           onClick={generate}
         >
@@ -69,19 +69,19 @@ export default function TravelPlanPanel({ onRouteReady, origin, originCoords }: 
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mb-2">
         {distanceKm !== null && (
-          <Card className="p-2 text-center bg-blue-50">
+          <Card className="p-2 text-center bg-slate-50">
             <div className="text-[10px] font-medium uppercase tracking-wide">{t('Total Distance')}</div>
             <div className="text-lg font-semibold">{distanceKm} km</div>
           </Card>
         )}
         {durationH !== null && (
-          <Card className="p-2 text-center bg-green-50">
+          <Card className="p-2 text-center bg-emerald-50">
             <div className="text-[10px] font-medium uppercase tracking-wide">{t('Total Time')}</div>
             <div className="text-lg font-semibold">{durationH} h</div>
           </Card>
         )}
         {costUsd !== null && (
-          <Card className="p-2 text-center bg-yellow-50">
+          <Card className="p-2 text-center bg-amber-50">
             <div className="text-[10px] font-medium uppercase tracking-wide">{t('Total Cost')}</div>
             <div className="text-lg font-semibold">${costUsd}</div>
           </Card>

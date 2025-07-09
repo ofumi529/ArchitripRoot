@@ -20,6 +20,28 @@ L.Icon.Default.mergeOptions({
   shadowUrl: markerShadow,
 });
 
+// Color palette for architects
+const palette = [
+  '#e6194b', '#3cb44b', '#ffe119', '#4363d8', '#f58231', '#911eb4', '#46f0f0', '#f032e6', '#bcf60c', '#fabebe', '#008080', '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1', '#000075', '#808080', '#ffffff', '#000000',
+];
+const colorMap: Record<string, string> = {};
+function getColor(key: string): string {
+  if (!colorMap[key]) {
+    const idx = Object.keys(colorMap).length % palette.length;
+    colorMap[key] = palette[idx];
+  }
+  return colorMap[key];
+}
+function createIcon(color: string): L.DivIcon {
+  return L.divIcon({
+    className: 'architect-marker',
+    html: `<div style="background:${color}; width:20px; height:20px; border-radius:50% 50% 50% 0; transform: rotate(-45deg); border:2px solid #fff; box-shadow:0 0 2px rgba(0,0,0,.3);"></div>`,
+    iconSize: [20, 20],
+    iconAnchor: [10, 20],
+    popupAnchor: [0, -20],
+  });
+}
+
 interface Props {
   route: [number, number][];
 }
@@ -38,10 +60,14 @@ export default function CleanMapView({ route }: Props) {
         <Marker
           key={work.id}
           position={[work.location.lat, work.location.lng]}
+          icon={createIcon(getColor(work.architect))}
           eventHandlers={{ click: () => toggleSelection(work) }}
         >
           <Popup>
-            <div className="text-sm">
+            <div className="text-sm flex flex-col items-center">
+              {work.imageUrl && (
+                <img src={work.imageUrl} alt={work.name} className="w-32 h-20 object-cover mb-1 grayscale" />
+              )}
               <strong>{work.name}</strong>
               <br />
               {work.architect} ({work.year})

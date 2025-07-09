@@ -11,14 +11,14 @@ const steps: { id: 'origin' | 'select' | 'plan'; label: string }[] = [
 export default function StepProgress({ current }: Props) {
   const index = steps.findIndex((s) => s.id === current);
   return (
-    <ol className="flex justify-center bg-stone-900 text-stone-100 text-xs tracking-wide select-none shadow-inner">
+    <ol className="flex justify-center bg-slate-900 text-stone-200 text-xs tracking-wide select-none shadow-inner font-display">
       {steps.map((step, i) => {
         const done = i < index;
         const active = i === index;
         return (
           <li
             key={step.id}
-            className={`flex-1 text-center px-3 py-2 border-r border-stone-700 last:border-none ${done ? 'bg-amber-700/40' : ''} ${active ? 'bg-amber-600 text-white font-semibold' : ''}`}
+            className={`flex-1 text-center px-3 py-2 border-r border-stone-700 last:border-none ${done ? 'bg-amber-700/30' : ''} ${active ? 'bg-amber-700 text-white font-semibold' : ''}`}
           >
             {done ? '✔ ' : ''}
             {step.label}

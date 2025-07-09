@@ -13,8 +13,8 @@ export default function Button({
   ...rest
 }: Props) {
   const variantClasses: Record<string, string> = {
-    primary: 'bg-blue-600 text-white hover:bg-blue-700',
-    secondary: 'bg-gray-200 text-gray-800 hover:bg-gray-300',
+    primary: 'bg-amber-700 text-white hover:bg-amber-800 shadow-sm',
+    secondary: 'bg-slate-600 text-white hover:bg-slate-700',
     danger: 'bg-red-600 text-white hover:bg-red-700',
   };
   const sizeClasses: Record<string, string> = {

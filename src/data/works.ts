@@ -1,89 +1,40 @@
+import { csvParse, DSVRowString } from 'd3-dsv';
 import { ArchitecturalWork } from '../types/models';
+import worksCsv from './works.csv?raw';
 
-export const works: ArchitecturalWork[] = [
-  {
-    id: 'savoie',
-    name: 'Villa Savoye',
-    architect: 'Le Corbusier',
-    year: 1931,
-    location: {
-      lat: 48.9076,
-      lng: 2.0432,
-      address: '82 Rue de Villiers, 78300 Poissy, France',
-      city: 'Poissy',
-      country: 'France',
-    },
-    description: 'An iconic masterpiece of modernist architecture.',
-    imageUrl: '',
-    visitDuration: 60,
-    category: 'Residential',
+// Eagerly import all images in this directory (jpg/png/webp) so Vite returns their resolved URLs
+// The key is the relative path, e.g. '../data/images/villa_savoye.jpg'
+// We convert it to the basename (without extension) to match the "id" field in CSV
+const imageModules = import.meta.glob('../data/images/*.{jpg,jpeg,png,webp}', { eager: true, import: 'default' }) as Record<string, string>;
+
+const imageMap: Record<string, string> = {};
+for (const [path, url] of Object.entries(imageModules)) {
+  const filename = path.split('/').pop()!;
+  const id = filename.replace(/\.(jpg|jpeg|png|webp)$/i, '');
+  imageMap[id] = url;
+}
+
+// --- CSV → ArchitecturalWork[] ------------------------------
+const rows: DSVRowString[] = csvParse(worksCsv.trim());
+
+export const works: ArchitecturalWork[] = rows.map(r => ({
+  id: r.id!,
+  name: r.name!,
+  architect: r.architect!,
+  year: Number(r.year),
+  location: {
+    lat: Number(r.lat),
+    lng: Number(r.lng),
+    address: r.address!,
+    city: r.city!,
+    country: r.country!,
   },
-  {
-    id: 'fallingwater',
-    name: 'Fallingwater',
-    architect: 'Frank Lloyd Wright',
-    year: 1939,
-    location: {
-      lat: 39.9067,
-      lng: -79.4673,
-      address: '1491 Mill Run Rd, Mill Run, PA 15464, United States',
-      city: 'Mill Run',
-      country: 'USA',
-    },
-    description: 'Perhaps Wright\'s most famous work, built partly over a waterfall.',
-    imageUrl: '',
-    visitDuration: 90,
-    category: 'Residential',
-  },
-  {
-    id: 'barcelona_pavilion',
-    name: 'Barcelona Pavilion',
-    architect: 'Ludwig Mies van der Rohe',
-    year: 1929,
-    location: {
-      lat: 41.3695,
-      lng: 2.1527,
-      address: 'Av. Francesc Ferrer i Guàrdia, 7, 08038 Barcelona, Spain',
-      city: 'Barcelona',
-      country: 'Spain',
-    },
-    description: 'A seminal modernist pavilion renowned for its simplicity and elegance.',
-    imageUrl: '',
-    visitDuration: 45,
-    category: 'Public',
-  },
-  {
-    id: 'heyday_aliyev',
-    name: 'Heydar Aliyev Center',
-    architect: 'Zaha Hadid',
-    year: 2012,
-    location: {
-      lat: 40.3953,
-      lng: 49.8685,
-      address: '1 Heydar Aliyev Ave, Baku, Azerbaijan',
-      city: 'Baku',
-      country: 'Azerbaijan',
-    },
-    description: 'Known for its distinctive flowing curves and wave-like form.',
-    imageUrl: '',
-    visitDuration: 60,
-    category: 'Cultural',
-  },
-  {
-    id: 'church_of_light',
-    name: 'Church of the Light',
-    architect: 'Tadao Ando',
-    year: 1989,
-    location: {
-      lat: 34.7056,
-      lng: 135.4652,
-      address: '1-7-1 Ibaraki, Osaka, Japan',
-      city: 'Ibaraki',
-      country: 'Japan',
-    },
-    description: 'Minimalist concrete church emphasizing the interplay of light and shadow.',
-    imageUrl: '',
-    visitDuration: 30,
-    category: 'Religious',
-  },
-];
+  description: r.description!,
+  imageUrl: imageMap[r.id as string] ?? '',
+  visitDuration: Number(r.visitDuration),
+  category: r.category!,
+}));
+
+export const worksMap: Record<string, ArchitecturalWork> = Object.fromEntries(
+  works.map(w => [w.id, w]),
+);

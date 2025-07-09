@@ -17,15 +17,15 @@ export default function SelectWorksStep({ onNext }: Props) {
   return (
     <div className="flex flex-col h-full">
       {/* mode toggle */}
-      <div className="flex justify-center gap-2 py-2 bg-gradient-to-r from-amber-800 via-stone-800 to-amber-800 text-[10px] uppercase tracking-wide text-amber-50 shadow-inner">
+      <div className="flex justify-center gap-2 py-2 bg-gradient-to-r from-slate-800 via-stone-800 to-amber-900 text-[10px] uppercase tracking-wide text-amber-50 shadow-inner">
         <button
-          className={`px-3 py-1 rounded-full font-semibold transition-colors duration-200 ${mode === 'map' ? 'bg-amber-600 text-white' : 'hover:bg-amber-700/30'}`}
+          className={`px-3 py-1 rounded-full font-semibold transition-colors duration-200 ${mode === 'map' ? 'bg-slate-600 text-white' : 'hover:bg-slate-700/30'}`}
           onClick={() => setMode('map')}
         >
           地図で巡る — Masterpiece Atlas
         </button>
         <button
-          className={`px-3 py-1 rounded-full font-semibold transition-colors duration-200 ${mode === 'photo' ? 'bg-amber-600 text-white' : 'hover:bg-amber-700/30'}`}
+          className={`px-3 py-1 rounded-full font-semibold transition-colors duration-200 ${mode === 'photo' ? 'bg-amber-700 text-white' : 'hover:bg-amber-800/30'}`}
           onClick={() => setMode('photo')}
         >
           写真で選ぶ — Visual Gallery
